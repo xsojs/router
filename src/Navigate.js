@@ -11,7 +11,7 @@ function Navigate(props) {
             a: {
                 onClick: () => {
                     navigateTo(to);
-                    if (top) {
+                    if (top !== false) {
                         window.scrollTo(0, 0);
                     }
                     if (onClick) {
