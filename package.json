@@ -1,7 +1,7 @@
 {
     "name": "@xso/router",
     "version": "0.1.0",
-    "description": "Router URL navigation to the XSO.",
+    "description": "Router URL navigation to the XSO framework.",
     "main": "./dist/xso-router.umd.js",
     "module": "./dist/xso-router.es.js",
     "exports": {
@@ -20,22 +20,12 @@
     "license": "MIT",
     "repository": "'xsojs/router",
     "keywords": [
-        "react",
-        "vue",
-        "jquery",
-        "css",
-        "less",
-        "sass",
-        "scss",
-        "style",
-        "stylex",
-        "simple",
-        "util",
-        "utility"
+        "xso",
+        "xsojs"
     ],
     "dependencies": {
-        "@xso/com": "link:../com",
-        "@xso/utils": "link:../utils"
+        "@xso/com": "^0.1.0",
+        "@xso/utils": "^0.1.0"
     },
     "devDependencies": {
         "vite": "^4.3.9"
