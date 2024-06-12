@@ -1,6 +1,6 @@
 {
     "name": "@xso/router",
-    "version": "0.1.0",
+    "version": "0.1.1",
     "description": "Router URL navigation to the XSO framework.",
     "main": "./dist/xso-router.umd.js",
     "module": "./dist/xso-router.es.js",
@@ -18,7 +18,7 @@
     },
     "author": "Eduardo Velasques",
     "license": "MIT",
-    "repository": "'xsojs/router",
+    "repository": "xsojs/router",
     "keywords": [
         "xso",
         "xsojs"
