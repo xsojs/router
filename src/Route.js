@@ -1,6 +1,6 @@
 import com from "@xso/com";
 
-function Router({path, component}) {
+function Route({path, component}) {
     const visible = this.state(false);
     const params = this.state(null);
     this.updatePath = (newPath)=> {
@@ -44,4 +44,4 @@ function Router({path, component}) {
     });
 }
 
-export default com(Router);
+export default com(Route);
