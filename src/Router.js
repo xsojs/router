@@ -4,7 +4,7 @@ import Route from "./Route";
 let instance = null;
 let currentPath = '/';
 
-const Router = com(function ({routes}) {
+const Router = com(function Router({routes}) {
     com.ensureType(routes, Route);
 
     instance = this;
