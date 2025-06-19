@@ -10,7 +10,9 @@ function Navigate(props) {
     this.view(() => [
         {
             a: {
-                onClick: () => {
+                href: !to ? '#': to,
+                onClick: (e) => {
+                    e.preventDefault();
                     let link = to;
                     let anchor = null;
                     if (to.indexOf('#') >= 0) {
@@ -27,6 +29,7 @@ function Navigate(props) {
                     if (onClick) {
                         onClick();
                     }
+                    return false;
                 },
                 ...elementProps
             }
