@@ -1,540 +1,518 @@
-var Nt = Object.defineProperty;
-var jt = (e, t, n) => t in e ? Nt(e, t, { enumerable: !0, configurable: !0, writable: !0, value: n }) : e[t] = n;
-var pt = (e, t, n) => (jt(e, typeof t != "symbol" ? t + "" : t, n), n), ot = (e, t, n) => {
-  if (!t.has(e))
-    throw TypeError("Cannot " + n);
-};
-var i = (e, t, n) => (ot(e, t, "read from private field"), n ? n.call(e) : t.get(e)), l = (e, t, n) => {
-  if (t.has(e))
-    throw TypeError("Cannot add the same private member more than once");
-  t instanceof WeakSet ? t.add(e) : t.set(e, n);
-}, u = (e, t, n, r) => (ot(e, t, "write to private field"), r ? r.call(e, n) : t.set(e, n), n);
-var C = (e, t, n) => (ot(e, t, "access private method"), n);
-function a(e, t, n, r) {
-  if (a.null == t)
+function l(e, t, n, i) {
+  if (l.null == t)
     throw new Error(`${n} is null and not a valid ${e}.`);
-  if (a.invalid == t)
-    throw new Error(`${n} is ${typeof r} and not a valid ${e}.`);
+  if (l.invalid == t)
+    throw new Error(`${n} is ${typeof i} and not a valid ${e}.`);
 }
-a.array = "array";
-a.function = "function";
-a.object = "object";
-a.string = "string";
-a.null = 0;
-a.invalid = 1;
-function Tt(e, t) {
-  t == null && a(a.array, a.null, e, t), (typeof t != "object" || !Array.isArray(t)) && a(a.array, a.invalid, e, t);
+l.array = "array";
+l.function = "function";
+l.object = "object";
+l.string = "string";
+l.null = 0;
+l.invalid = 1;
+function D(e, t) {
+  t == null && l(l.array, l.null, e, t), (typeof t != "object" || !Array.isArray(t)) && l(l.array, l.invalid, e, t);
 }
-function wt(e, t) {
-  t == null && a(a.function, a.null, e, t), typeof t != "function" && a(a.function, a.invalid, e, t);
+function x(e, t) {
+  t == null && l(l.function, l.null, e, t), typeof t != "function" && l(l.function, l.invalid, e, t);
 }
-function $(e, t) {
-  t == null && a(a.object, a.null, e, t), (typeof t != "object" || Array.isArray(t)) && a(a.object, a.invalid, e, t);
+function m(e, t) {
+  t == null && l(l.object, l.null, e, t), (typeof t != "object" || Array.isArray(t)) && l(l.object, l.invalid, e, t);
 }
-function Y(e, t) {
-  t == null && a(a.string, a.null, e, t), typeof t != "string" && !(t instanceof String) && a(a.string, a.invalid, e, t);
+function C(e, t) {
+  t == null && l(l.string, l.null, e, t), typeof t != "string" && !(t instanceof String) && l(l.string, l.invalid, e, t);
 }
-function A(e) {
+function w(e) {
   return typeof e == "object" && e != null && Array.isArray(e);
 }
-function xt(e) {
+function F(e) {
   return typeof e == "function" && e != null;
 }
-function V(e) {
+function O(e) {
   return typeof e == "object" && e != null && !Array.isArray(e);
 }
-function Z(e) {
+function $(e) {
   return (typeof e == "string" || e instanceof String) && e != null;
 }
-const dt = [], mt = "_xso_com_", w = {
-  COMPONENTS: dt,
-  COMPONENTS_PREFIX: mt,
-  getComponent: (e) => dt.find((t) => t.key == e).instance,
-  isKey: (e) => e.indexOf(mt) == 0
+const k = [], T = "_xso_com_", f = {
+  COMPONENTS: k,
+  COMPONENTS_PREFIX: T,
+  getComponent: (e) => {
+    const t = k.find((n) => n.key == e);
+    return t ? t.instance : null;
+  },
+  isKey: (e) => e.indexOf(T) == 0
 };
-var tt, L, R, _;
-class ut {
+class N {
+  #i = null;
+  #t = null;
+  #s = null;
+  #e = null;
   constructor(t, n) {
-    l(this, tt, null);
-    l(this, L, null);
-    l(this, R, null);
-    l(this, _, null);
-    u(this, tt, t), u(this, L, n);
+    this.#i = t, this.#t = n;
   }
   get current() {
-    return i(this, _);
+    return this.#e;
   }
   set current(t) {
-    u(this, _, t), i(this, L).fire(this);
+    this.#e = t, this.#t.fire(this);
   }
   set(t) {
-    return u(this, R, t), this;
+    return this.#s = t, this;
   }
   get() {
-    return i(this, R);
+    return this.#s;
   }
 }
-tt = new WeakMap(), L = new WeakMap(), R = new WeakMap(), _ = new WeakMap();
-ut.prototype.toString = function() {
+N.prototype.toString = function() {
   return this.current;
 };
-function $t(e, t, n) {
-  $("Properties", t);
-  const r = (o) => new Error(`Content of type ${typeof o} is not valid, only string, object, or array with objects.`);
-  for (const o of Object.keys(t)) {
-    const s = t[o];
-    if (o == "_" && s)
-      if (Z(s))
-        e.textContent = s;
-      else if (A(s))
-        b(e, s, n);
-      else if (V(s))
-        b(e, [s], n);
-      else
-        throw r(s);
-    else if (o == "$" && s)
-      if (Z(s))
-        e.innerHTML = s;
-      else if (A(s))
-        b(e, s, n, !0);
-      else if (V(s))
-        b(e, [s], n, !0);
-      else
-        throw r(s);
-    else if (o == "text" && s)
-      Y(o, s), e.innerText = s;
-    else if (o == "html" && s)
-      Y(o, s), e.innerHTML = s;
-    else if (o == "style" && s) {
-      $(o, s);
-      for (const h of Object.keys(s))
-        e.style[h] = s[h];
-    } else if (o == "className" && s)
-      Y(o, s), e.className = s;
-    else if (o == "classList" && s)
-      yt(e, s);
-    else if (o == "class" && s) {
-      if (Z(s))
-        e.className = s;
-      else if (A(s))
-        yt(e, s);
-      else if (s != null && s != null)
+function b(e, t, n, i) {
+  m("Properties", t);
+  for (const r of Object.keys(t)) {
+    const s = t[r];
+    if (r === "_" && s)
+      w(s) ? d(e, s, n, !1, i) : O(s) ? d(e, [s], n, !1, i) : e.textContent = s;
+    else if (r === "$" && s)
+      w(s) ? d(e, s, n, !0, i) : O(s) ? d(e, [s], n, !0, i) : e.innerHTML = s;
+    else if (r === "text" && s)
+      C(r, s), e.innerText = s;
+    else if (r === "html" && s)
+      C(r, s), e.innerHTML = s;
+    else if (r === "style" && s) {
+      m(r, s);
+      for (const o of Object.keys(s))
+        o.indexOf("--") === 0 ? e.style.setProperty(o, s[o]) : e.style[o] = s[o];
+    } else if (r === "className" && s)
+      C(r, s), e.className instanceof SVGAnimatedString ? e.className.baseVal = s : e.className = s;
+    else if (r === "classList" && s)
+      e.className instanceof SVGAnimatedString ? e.className.baseVal = s.join(" ") : j(r, e, s);
+    else if (r === "class" && s) {
+      if ($(s))
+        e.className instanceof SVGAnimatedString ? e.className.baseVal = s : e.className = s;
+      else if (w(s))
+        j(r, e, s);
+      else if (s != null)
         throw new Error(`CSS Class of type ${typeof s} is not valid, only string or array of strings is accepted.`);
-    } else
-      o.indexOf("on") == 0 ? (wt(o, s), e.addEventListener(o.substring(2).toLowerCase(), s)) : e.setAttribute(o, s);
+    } else r.indexOf("on") === 0 ? s && (x(r, s), e.addEventListener(r.substring(2).toLowerCase(), s)) : s != null && e.setAttribute(r, s);
   }
 }
-function yt(e, t) {
-  Tt(key, t);
-  for (const n of t)
-    Y(n), e.classList.add(n);
+function j(e, t, n) {
+  D(e, n);
+  for (const i of n)
+    C(e, i), t.classList.add(i);
 }
-function b(e, t, n, r) {
-  const o = [];
-  if (V(t))
-    if (t instanceof ut) {
-      const s = b(e, t.get(), n);
-      if (s.length == 0)
+function d(e, t, n, i = !1, r) {
+  const s = [];
+  if (O(t))
+    if (t instanceof N) {
+      const o = d(e, t.get(), n);
+      if (o.length === 0)
         throw new Error("Reference is empty with no valid elements.");
-      if (s.length > 1)
+      if (o.length > 1)
         throw new Error("Reference with more than 1 element.");
-      t.current = s[0];
+      t.current = o[0];
     } else {
-      const s = Object.keys(t);
-      if (s.length > 1)
-        throw new Error(`Object with more than 1 keys: ${s.join(", ")}`);
-      if (s.length == 0)
+      const o = Object.keys(t);
+      if (o.length > 1)
+        throw new Error(`Object with more than 1 keys: ${o.join(", ")}`);
+      if (o.length === 0)
         throw new Error("Object with no key, but one is required.");
-      for (const h of s) {
-        const f = t[h];
-        if (w.isKey(h)) {
-          const d = w.getComponent(h).clone();
-          d.parent = e, d.render(f), n && n.appendChildComponent(d), o.push(d);
+      for (const a of o) {
+        const c = t[a];
+        if (f.isKey(a)) {
+          let u = f.getComponent(a);
+          if (u)
+            u = u.clone(), u.parent = e, u.render(c), n && n.appendChildComponent(u), s.push(u);
+          else {
+            const y = document.createElement("xso-com-error");
+            y.innerText = "# XSO Component Error #", e.appendChild(y);
+          }
+        } else if (a === "svg" && !c.xmlns && !r && (r = "http://www.w3.org/2000/svg"), c.xmlns) {
+          const u = document.createElementNS(c.xmlns, a);
+          b(u, c, n, c.xmlns), s.push(u), e.appendChild(u);
+        } else if (r) {
+          const u = document.createElementNS(r, a);
+          b(u, c, n, r), s.push(u), e.appendChild(u);
         } else {
-          const d = document.createElement(h);
-          $t(d, f, n), o.push(d), e.appendChild(d);
+          const u = document.createElement(a);
+          b(u, c, n), s.push(u), e.appendChild(u);
         }
       }
     }
-  else if (A(t))
-    for (const s of t)
-      if (Z(s))
-        if (r) {
-          const h = document.createElement("span");
-          h.innerHTML = s, e.appendChild(h), o.push(s);
+  else if (w(t))
+    for (const o of t)
+      if ($(o))
+        if (i) {
+          const a = document.createElement("span");
+          a.innerHTML = o, e.appendChild(a), s.push(o);
         } else {
-          const h = document.createTextNode(s);
-          e.appendChild(h), o.push(s);
+          const a = document.createTextNode(o);
+          e.appendChild(a), s.push(o);
         }
       else
-        b(e, s, n);
-  else
+        d(e, o, n, !1, r);
+  else if (t != null)
     throw new Error(`View of type ${typeof t} is invalid, only object or array of objects.`);
-  return o;
+  return s;
 }
-var I, F, E, D;
-class gt {
+class A {
+  #i = null;
+  #t = null;
+  #s = null;
+  #e = null;
   constructor(t, n) {
-    l(this, I, null);
-    l(this, F, null);
-    l(this, E, null);
-    l(this, D, null);
-    u(this, I, t), u(this, E, n);
+    this.#i = t, this.#s = n;
   }
   set val(t) {
-    JSON.stringify(i(this, D)) != JSON.stringify(t) && (u(this, F, i(this, E)), u(this, E, t), u(this, D, JSON.stringify(t)), console.log("Props >> " + i(this, I).key(), t));
+    JSON.stringify(this.#e) !== JSON.stringify(t) && (this.#t = this.#s, this.#s = t, this.#e = JSON.stringify(t));
   }
   get val() {
-    return i(this, E);
+    return this.#s;
   }
   get previous() {
-    return i(this, F);
+    return this.#t;
   }
 }
-I = new WeakMap(), F = new WeakMap(), E = new WeakMap(), D = new WeakMap();
-gt.prototype.toString = function() {
+A.prototype.toString = function() {
   return this.val;
 };
-var J, N, q, m, H, X, lt;
-class vt {
-  constructor(t, n, r) {
-    l(this, X);
-    l(this, J, null);
-    l(this, N, null);
-    l(this, q, null);
-    l(this, m, null);
-    l(this, H, 0);
-    u(this, J, t), u(this, N, n), u(this, m, r);
+class M {
+  #i = null;
+  #t = null;
+  #s = null;
+  #e = null;
+  #o = 0;
+  constructor(t, n, i) {
+    this.#i = t, this.#t = n, this.#e = i;
   }
   set $val(t) {
-    i(this, m) !== t && (C(this, X, lt).call(this, t), i(this, J).render(), i(this, N).fire(this));
+    this.#e !== t && (this.#r(t), this.#i.render(), this.#t.fire(this));
   }
   get $val() {
-    return i(this, m);
+    return this.#e;
   }
   set val(t) {
-    i(this, m) !== t && (C(this, X, lt).call(this, t), i(this, N).fire(this));
+    this.#e !== t && (this.#r(t), this.#t.fire(this));
   }
   get val() {
-    return i(this, m);
+    return this.#e;
   }
   get previous() {
-    return i(this, q);
+    return this.#s;
   }
   get lastChanged() {
-    return i(this, H);
+    return this.#o;
+  }
+  #r(t) {
+    this.#s = this.#e, this.#e = t, this.#o = Date.now();
   }
 }
-J = new WeakMap(), N = new WeakMap(), q = new WeakMap(), m = new WeakMap(), H = new WeakMap(), X = new WeakSet(), lt = function(t) {
-  u(this, q, i(this, m)), u(this, m, t), u(this, H, Date.now());
-};
-vt.prototype.toString = function() {
+M.prototype.toString = function() {
   return this.val;
 };
-var z, P;
-class Mt {
-  constructor() {
-    l(this, z, []);
-    l(this, P, []);
-  }
+class K {
+  #i = [];
+  #t = [];
   add(t, n) {
-    i(this, z).push({
+    this.#i.push({
       items: t,
       func: n
     });
   }
   fire(t) {
-    const n = i(this, z).filter((r) => r.items.includes(t));
-    for (const r of n)
-      r && !i(this, P).includes(r.func) && (i(this, P).push(r.func), setTimeout(() => {
-        i(this, P).splice(i(this, P).indexOf(r.func), 1), r.func();
+    const n = this.#i.filter((i) => i.items.includes(t));
+    for (const i of n)
+      i && !this.#t.includes(i.func) && (this.#t.push(i.func), setTimeout(() => {
+        this.#t.splice(this.#t.indexOf(i.func), 1), i.func();
       }, 0));
   }
 }
-z = new WeakMap(), P = new WeakMap();
-function Ct(e) {
-  return e instanceof v;
+function R(e) {
+  return e instanceof p;
 }
-function ht(e) {
-  if (!Ct(e))
+function P(e) {
+  if (!R(e))
     throw new Error("Invalid component, because not implement the component class.");
 }
-var j, p, S, O, g, B, k, U, G, c, T, x, et, Ot, nt, bt, it, Et, Q, at;
-const ct = class {
-  constructor(t) {
-    l(this, et);
-    l(this, nt);
-    l(this, it);
-    l(this, Q);
-    l(this, j, !1);
-    l(this, p, null);
-    l(this, S, null);
-    l(this, O, null);
-    l(this, g, null);
-    l(this, B, []);
-    l(this, k, () => {
-    });
-    l(this, U, () => {
-    });
-    l(this, G, () => {
-    });
-    l(this, c, { elements: [], components: [] });
-    l(this, T, new Mt());
-    pt(this, "parent", null);
-    l(this, x, null);
-    if (!xt(t) || t.toString().indexOf("function") != 0)
+class p {
+  #i = !1;
+  #t = null;
+  #s = null;
+  #e = null;
+  #o = null;
+  #r = null;
+  #h = [];
+  #l = () => {
+  };
+  #c = () => {
+  };
+  #f = () => {
+  };
+  #n = { elements: [], components: [] };
+  #a = new K();
+  parent = null;
+  #u = null;
+  constructor(t, n) {
+    if (!F(t) || t.toString().indexOf("function") != 0)
       throw new Error("Only classic functions are used for components and arrow function is not supported.");
-    u(this, p, t), C(this, et, Ot).call(this);
+    this.#t = t, this.#s = n, this.#d();
+  }
+  #d() {
+    for (; ; ) {
+      const t = f.COMPONENTS_PREFIX + "[" + this.name() + "]_" + (Math.random() + 1).toString(36).substring(2);
+      if (!f.COMPONENTS.find((n) => n.key == t)) {
+        this.#e = t;
+        break;
+      }
+    }
+    f.COMPONENTS.push({ key: this.#e, instance: this });
   }
   name() {
-    return i(this, p).name;
+    return this.#t.name;
   }
   clone() {
-    return new ct(i(this, p));
+    return new p(this.#t, this.#s);
+  }
+  logErrorStack() {
+    window.setTimeout(() => console.error(this.name() + " >> Component" + this.#s), 0);
   }
   childrenElements() {
-    return [...i(this, c).elements];
+    return [...this.#n.elements];
   }
   childrenComponents() {
-    return [...i(this, c).components];
+    return [...this.#n.components];
   }
   appendChildComponent(t) {
-    ht(t), i(this, c).components.push(t);
+    P(t), this.#n.components.push(t);
+  }
+  #m() {
+    if (this.#n.elements.length > 0) {
+      if (parent = this.#n.elements[0].parentNode, parent == null)
+        return;
+      for (const t of this.#n.elements)
+        parent.contains(t) && parent.removeChild(t);
+    }
+  }
+  #y() {
+    for (const t of this.#n.components)
+      t.unmount();
+    this.#n.components = [];
   }
   mount(t) {
-    t ? u(this, k, t) : i(this, k).call(this);
+    t ? this.#l = t : this.#l();
   }
   unmount(t) {
-    t ? u(this, U, t) : (C(this, it, Et).call(this), C(this, nt, bt).call(this), i(this, U).call(this));
+    t ? this.#c = t : (this.#y(), this.#m(), this.#c());
   }
   view(t) {
-    u(this, G, t);
+    this.#f = t;
   }
   ref() {
-    return new ut(this, i(this, T));
+    return new N(this, this.#a);
   }
   changes(t, n) {
-    i(this, T).add(t, n);
+    this.#a.add(t, n);
   }
   render(t) {
-    var r;
-    const n = this;
-    i(this, O) ? (i(this, x) && clearTimeout(i(this, x)), u(this, x, setTimeout(() => {
-      var o;
-      C(o = n, Q, at).call(o, t);
-    }, 0))) : C(r = n, Q, at).call(r, t);
+    try {
+      const n = this;
+      this.#o ? (this.#u && clearTimeout(this.#u), this.#u = setTimeout(() => {
+        n.#p(t);
+      }, 0)) : n.#p(t);
+    } catch (n) {
+      throw this.logErrorStack(), n;
+    }
   }
-  static isSameKind(t, n) {
-    let r = null;
+  #p(t) {
+    this.#o ? t ? this.#o.val = t : this.#r = { state: 0 } : this.#o = new A(this, t), this.#i == !1 && this.#t.bind(this)(this.#o.val);
+    let n = this.#f.bind(this)();
+    (!n || n.length == 0) && (n = [{ span: { style: { display: "none" } } }]);
+    let i = null;
+    this.#r && (i = this.#n.elements[0].parentNode);
+    const r = document.createDocumentFragment(), s = this.#n.components;
+    if (this.#n.components = [], d(r, n, this), this.#r) {
+      const o = [];
+      for (const a of r.children)
+        o.push(a);
+      if (this.#n.elements.length == 0)
+        this.parent.appendChild(r);
+      else {
+        i.insertBefore(r, this.#n.elements[0]);
+        for (const a of s)
+          a.unmount();
+        for (const a of this.#n.elements)
+          i.contains(a) && i.removeChild(a);
+      }
+      this.#n.elements = o;
+    } else {
+      for (const o of r.children)
+        this.#n.elements.push(o);
+      this.parent.appendChild(r);
+    }
+    this.#r = null, this.#i == !1 && (this.#i = !0, this.#l && window.setTimeout(this.#l, 0));
+  }
+  static isSameType(t, n) {
+    let i = null;
     for (const s of Object.keys(t))
-      r = s;
-    const o = w.getComponent(r);
-    return i(o, p) === i(n, p);
+      i = s;
+    return f.getComponent(i).#t === n.#t;
   }
   function() {
-    return i(this, p);
+    return this.#t;
   }
   key() {
-    return i(this, S);
+    return this.#e;
   }
   destroy() {
-    const t = w.COMPONENTS.findIndex((n) => n.key == i(this, S));
-    w.COMPONENTS.splice(t, 1);
+    const t = f.COMPONENTS.findIndex((n) => n.key == this.#e);
+    f.COMPONENTS.splice(t, 1);
   }
   state(t) {
-    if (i(this, g))
-      return i(this, B)[i(this, g).state++];
-    const n = new vt(this, i(this, T), t);
-    return i(this, B).push(n), n;
+    if (this.#r)
+      return this.#h[this.#r.state++];
+    const n = new M(this, this.#a, t);
+    return this.#h.push(n), n;
   }
-};
-let v = ct;
-j = new WeakMap(), p = new WeakMap(), S = new WeakMap(), O = new WeakMap(), g = new WeakMap(), B = new WeakMap(), k = new WeakMap(), U = new WeakMap(), G = new WeakMap(), c = new WeakMap(), T = new WeakMap(), x = new WeakMap(), et = new WeakSet(), Ot = function() {
-  for (; ; ) {
-    const t = w.COMPONENTS_PREFIX + "[" + i(this, p).name + "]_" + (Math.random() + 1).toString(36).substring(2);
-    if (!w.COMPONENTS.find((n) => n.key == t)) {
-      u(this, S, t);
-      break;
-    }
-  }
-  w.COMPONENTS.push({ key: i(this, S), instance: this });
-}, nt = new WeakSet(), bt = function() {
-  if (i(this, c).elements.length > 0) {
-    if (parent = i(this, c).elements[0].parentNode, parent == null)
-      return;
-    for (const t of i(this, c).elements)
-      parent.contains(t) && parent.removeChild(t);
-  }
-}, it = new WeakSet(), Et = function() {
-  for (const t of i(this, c).components)
-    t.unmount();
-  i(this, c).components = [];
-}, Q = new WeakSet(), at = function(t) {
-  i(this, O) ? t ? i(this, O).val = t : u(this, g, { state: 0 }) : u(this, O, new gt(this, t)), i(this, j) == !1 && i(this, p).bind(this)(i(this, O).val);
-  let n = i(this, G).bind(this)();
-  (!n || n.length == 0) && (n = [{ span: { style: { display: "none" } } }]);
-  let r = null;
-  i(this, g) && (r = i(this, c).elements[0].parentNode);
-  const o = document.createDocumentFragment(), s = i(this, c).components;
-  if (i(this, c).components = [], b(o, n, this), i(this, g)) {
-    const h = [];
-    for (const f of o.children)
-      h.push(f);
-    if (i(this, c).elements.length == 0)
-      this.parent.appendChild(o);
-    else {
-      r.insertBefore(o, i(this, c).elements[0]);
-      for (const f of s)
-        f.unmount();
-      for (const f of i(this, c).elements)
-        r.contains(f) && r.removeChild(f);
-    }
-    i(this, c).elements = h;
-  } else {
-    for (const h of o.children)
-      i(this, c).elements.push(h);
-    this.parent.appendChild(o);
-  }
-  u(this, g, null), i(this, j) == !1 && (u(this, j, !0), i(this, k) && window.setTimeout(i(this, k), 0));
-};
-v.prototype.toString = function() {
+}
+p.prototype.toString = function() {
   return this.key();
 };
-v.prototype.isSameKind = function(e, t) {
-  return v.isSameKind(e, t);
-};
-function At(e) {
-  $("Component Props", e);
+function J(e) {
+  m("Component Props", e);
   let t = null;
   for (const n of Object.keys(e)) {
     if (t != null)
       throw new Error(`More than 1 component in the same object: ${e}`);
-    t = e[n], $("Component Props Loaded", t);
+    t = e[n], m("Component Props Loaded", t);
   }
   return t;
 }
-function Pt(e) {
-  $("jsonDefinition of an invalid object.", e);
+function L(e) {
+  m("jsonDefinition of an invalid object.", e);
   let t = null;
-  for (const r of Object.keys(e))
-    t = r;
+  for (const i of Object.keys(e))
+    t = i;
   let n = t;
-  return t.indexOf(w.COMPONENTS_PREFIX) == 0 && (n = t.substring(t.indexOf("[") + 1, t.lastIndexOf("]"))), JSON.stringify({
+  return t.indexOf(f.COMPONENTS_PREFIX) == 0 && (n = t.substring(t.indexOf("[") + 1, t.lastIndexOf("]"))), JSON.stringify({
     [n]: e[t]
   });
 }
-function K(e, t) {
-  const n = (r) => new Error(`Only ${t.function().name} type is accepted! This component is invalid: ${Pt(r)}`);
-  if (A(e)) {
-    for (const r of e)
-      if ($("ensureSameKind of an invalid object.", r), !v.isSameKind(r, t))
-        throw n(r);
-  } else if (V(e)) {
-    if (!v.isSameKind(e, t))
+function g(e, t) {
+  const n = (i) => new Error(`Only ${t.function().name} type is accepted! This component is invalid: ${L(i)}`);
+  if (w(e)) {
+    for (const i of e)
+      if (m("ensureSameKind of an invalid object.", i), !p.isSameType(i, t))
+        throw n(i);
+  } else if (O(e)) {
+    if (!p.isSameType(e, t))
       throw n(e);
   } else
     throw new Error("Invalid kind.");
 }
-K.required = (e, t) => {
+g.required = (e, t) => {
   if (e)
-    return K(e, t);
+    return g(e, t);
   throw new Error(`${t.name()} is required.`);
 };
-K.optional = (e, t) => {
-  e && K(e, t);
+g.optional = (e, t) => {
+  e && g(e, t);
 };
-function y(e) {
-  return wt("Component", e), new v(e);
+function h(e) {
+  return x("Component", e), new p(e, new Error().stack);
 }
-y.create = (e, t, n) => {
-  ht(t), t.parent = e, t.render(n);
+h.create = (e, t, n) => {
+  P(t), t.parent = e, t.render(n);
 };
-y.ensure = ht;
-y.is = Ct;
-y.ensureType = K;
-y.props = At;
-y.json = Pt;
-function Kt({ path: e, component: t }) {
-  const n = this.state(!1), r = this.state(null);
-  this.updatePath = (o) => {
-    const s = o.split("/"), h = e.split("/");
-    let f = s.length == h.length;
-    if (f) {
-      r.val = {};
-      for (const [d, M] of h.entries()) {
-        const ft = s[d];
-        let st = M.indexOf("{"), rt = M.indexOf("}");
-        if (st == 0 && st + 1 < rt && rt == M.length - 1)
-          r.val[M.substring(st + 1, rt)] = ft;
-        else if (M != ft) {
-          f = !1;
+h.ensure = P;
+h.is = R;
+h.isSameType = p.isSameType;
+h.ensureType = g;
+h.props = J;
+h.json = L;
+function X({ path: e, component: t }) {
+  const n = this.state(!1), i = this.state(null);
+  this.updatePath = (r) => {
+    const s = r.split("/"), o = e.split("/");
+    let a = s.length == o.length;
+    if (a) {
+      i.val = {};
+      for (const [c, u] of o.entries()) {
+        const y = s[c];
+        let S = u.indexOf("{"), E = u.indexOf("}");
+        if (S == 0 && S + 1 < E && E == u.length - 1)
+          i.val[u.substring(S + 1, E)] = y;
+        else if (u != y) {
+          a = !1;
           break;
         }
       }
-      if (f) {
+      if (a) {
         n.$val = !0;
         return;
       }
     }
-    r.val = {}, n.$val = !1;
+    i.val = {}, n.$val = !1;
   }, this.view(() => n.val ? [
     {
       [t]: {
         route: {
-          params: r.val
+          params: i.val
         }
       }
     }
   ] : []);
 }
-const Lt = y(Kt);
-let St = null, kt = "/";
-const W = y(function({ routes: e }) {
-  y.ensureType(e, Lt), St = this;
-  const t = e.map(() => this.ref());
-  this.updatePath = (n) => {
-    for (const r of t)
-      r.current.updatePath(n);
+const q = h(X);
+let _ = null, I = "/";
+const v = h(function({ routes: t }) {
+  h.ensureType(t, q), _ = this;
+  const n = t.map(() => this.ref());
+  this.updatePath = (i) => {
+    for (const r of n)
+      r.current.updatePath(i);
   }, this.view(() => {
-    const n = [];
-    for (const [r, o] of e.entries())
-      n.push(t[r].set(o));
-    return n;
+    const i = [];
+    for (const [r, s] of t.entries())
+      i.push(n[r].set(s));
+    return i;
   });
 });
-W.updatePath = (e) => {
-  kt = e, St.updatePath(e);
+v.updatePath = (e) => {
+  I = e, _.updatePath(e);
 };
-W.currentPath = () => kt;
+v.currentPath = () => I;
 window.addEventListener("load", function(e) {
   const t = window.location.pathname;
-  W.updatePath(t);
+  v.updatePath(t);
 });
 window.addEventListener("popstate", function(e) {
   const t = window.location.pathname;
-  W.updatePath(t);
+  v.updatePath(t);
 });
-function Rt(e) {
-  const { to: t, top: n, onClick: r } = e, o = { ...e };
-  delete o.to, delete o.top, delete o.onClick, this.view(() => [
+function G(e) {
+  const { to: t, top: n, onClick: i } = e, r = { ...e };
+  delete r.to, delete r.top, delete r.onClick, this.view(() => [
     {
       a: {
-        onClick: () => {
-          let s = t, h = null;
-          t.indexOf("#") >= 0 && (s = t.substring(0, t.indexOf("#")), h = t.substring(t.indexOf("#") + 1)), _t(s), h && window.setTimeout(() => location.hash = "#" + h, 0), n !== !1 && window.scrollTo(0, 0), r && r();
+        href: t || "#",
+        onClick: (s) => {
+          s.preventDefault();
+          let o = t, a = null;
+          return t.indexOf("#") >= 0 && (o = t.substring(0, t.indexOf("#")), a = t.substring(t.indexOf("#") + 1)), H(o), a && window.setTimeout(() => location.hash = "#" + a, 0), n !== !1 && window.scrollTo(0, 0), i && i(), !1;
         },
-        ...o
+        ...r
       }
     }
   ]);
 }
-const Ft = y(Rt);
-function _t(e) {
-  history.pushState(null, null, e), W.updatePath(e);
+const z = h(G);
+function H(e) {
+  history.pushState(null, null, e), v.updatePath(e);
 }
 export {
-  Ft as Navigate,
-  Lt as Route,
-  W as Router,
-  _t as navigateTo
+  z as Navigate,
+  q as Route,
+  v as Router,
+  H as navigateTo
 };
