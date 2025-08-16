@@ -1,6 +1,6 @@
 {
     "name": "@xso/router",
-    "version": "0.1.1",
+    "version": "0.1.2",
     "description": "Router URL navigation to the XSO framework.",
     "main": "./dist/xso-router.umd.js",
     "module": "./dist/xso-router.es.js",
