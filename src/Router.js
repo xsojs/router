@@ -4,7 +4,9 @@ import Route from "./Route";
 let instance = null;
 let currentPath = '/';
 
-const Router = com(function Router({routes}) {
+const changeListeners = [];
+
+const Router = com(function Router({routes, onChange}) {
     com.ensureType(routes, Route);
 
     instance = this;
@@ -15,6 +17,12 @@ const Router = com(function Router({routes}) {
         for (const route of refs) {
             route.current.updatePath(newPath);
         }
+        window.setTimeout(() => {
+            onChange && onChange(newPath);
+            for (const listener of changeListeners) {
+                listener(newPath);
+            }
+        }, 0);
     }
 
     this.view(()=> {
@@ -33,6 +41,17 @@ Router.updatePath = (newPath) => {
 
 Router.currentPath = ()=> {
     return currentPath;
+}
+
+Router.addOnChange = (func)=> {
+    changeListeners.push(func);
+}
+
+Router.removeOnChange = (func)=> {
+    const index = changeListeners.indexOf(func);
+    if (index > -1) {
+        changeListeners.splice(index, 1);
+    }
 }
 
 window.addEventListener("load", function(event) {
